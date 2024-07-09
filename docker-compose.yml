@@ -1,0 +1,48 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend/.docker/node/
+      dockerfile: Dockerfile
+    entrypoint: ./.docker/node/entrypoint.sh
+    ports:
+      - '3200:3200'
+    volumes:
+      - ./backend:/home/node/app
+    networks:
+      - code-talent-pool
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend/.docker/
+      dockerfile: Dockerfile
+    entrypoint: ./.docker/entrypoint.sh
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./frontend:/home/node/app
+    environment:
+      - NODE_ENV=development
+
+  postgres:
+    container_name: postgres
+    build:
+      context: ./backend/.docker/postgres/
+      dockerfile: Dockerfile
+    command: postgres -c log_statement=all -p 5200
+    volumes:
+      - ./backend/.docker/postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5200:5200'
+    networks:
+      - code-talent-pool
+
+networks:
+  code-talent-pool:
+    name: code-talent-pool
+    driver: bridge
