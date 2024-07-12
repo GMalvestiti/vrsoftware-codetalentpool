@@ -1,16 +1,26 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsBase64, IsNotEmpty, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsBase64,
+  IsNotEmpty,
+  IsNumber,
+  MaxLength,
+} from 'class-validator';
 import { EMensagem } from '../../../shared/enums/mensagem.enum';
 import { CreateProdutoLojaDto } from './create-produto-loja.dto';
+import { UpdateProdutoLojaDto } from './update-produto-loja.dto';
 
 export class CreateProdutoDto {
   @IsNotEmpty({ message: `descricao ${EMensagem.NAO_PODE_SER_VAZIO}` })
-  @MaxLength(60, { message: `descricao ${EMensagem.MAIS_CARACTERES_QUE_PERMITIDO}` })
+  @MaxLength(60, {
+    message: `descricao ${EMensagem.MAIS_CARACTERES_QUE_PERMITIDO}`,
+  })
   descricao: string;
 
+  @IsNumber({}, { message: `custo ${EMensagem.TIPO_INVALIDO}` })
   custo: number;
 
-  @IsBase64()
+  @IsBase64({}, { message: `imagem ${EMensagem.TIPO_INVALIDO}` })
   imagem: string;
 
   @IsArray({ message: `produtoloja ${EMensagem.TIPO_INVALIDO}` })
