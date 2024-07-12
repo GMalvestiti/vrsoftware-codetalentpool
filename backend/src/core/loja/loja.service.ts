@@ -22,8 +22,8 @@ export class LojaService {
     return `This action returns all loja`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} loja`;
+  async findOne(id: number): Promise<Loja> {
+    return await this.repository.findOne({ where: { id: id } });
   }
 
   update(id: number, updateLojaDto: UpdateLojaDto) {

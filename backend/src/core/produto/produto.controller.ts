@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { HttpResponse } from '../../shared/classes/http-response';
+import { IResponse } from '../../shared/interfaces/response.interface';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
@@ -30,8 +31,10 @@ export class ProdutoController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtoService.findOne(+id);
+  async findOne(@Param('id') id: number): Promise<IResponse<Produto>> {
+    const data = await this.produtoService.findOne(id);
+
+    return new HttpResponse<Produto>(data);
   }
 
   @Patch(':id')

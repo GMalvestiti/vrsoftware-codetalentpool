@@ -4,16 +4,12 @@ import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { ProdutoLoja } from './entities/produto-loja.entity';
 import { Produto } from './entities/produto.entity';
 
 @Injectable()
 export class ProdutoService {
   @InjectRepository(Produto)
   private repository: Repository<Produto>;
-
-  @InjectRepository(ProdutoLoja)
-  private repositoryProdutoLoja: Repository<ProdutoLoja>;
 
   async create(createProdutoDto: CreateProdutoDto): Promise<Produto> {
     if (

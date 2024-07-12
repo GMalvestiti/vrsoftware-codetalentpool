@@ -31,8 +31,10 @@ export class LojaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lojaService.findOne(+id);
+  async findOne(@Param('id') id: number): Promise<IResponse<Loja>> {
+    const data = await this.lojaService.findOne(id);
+
+    return new HttpResponse<Loja>(data);
   }
 
   @Patch(':id')
