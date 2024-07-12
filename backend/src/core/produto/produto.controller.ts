@@ -38,8 +38,13 @@ export class ProdutoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtoService.update(+id, updateProdutoDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateProdutoDto: UpdateProdutoDto,
+  ): Promise<IResponse<Produto>> {
+    const data = await this.produtoService.update(id, updateProdutoDto);
+
+    return new HttpResponse<Produto>(data).onUpdate();
   }
 
   @Delete(':id')

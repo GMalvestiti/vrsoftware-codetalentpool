@@ -27,8 +27,29 @@ export class LojaService {
     return await this.repository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateLojaDto: UpdateLojaDto) {
-    return `This action updates a #${id} loja`;
+  async update(id: number, updateLojaDto: UpdateLojaDto): Promise<Loja> {
+    if (id !== updateLojaDto.id) {
+      throw new HttpException(
+        EMensagem.IDS_DIFERENTES,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    const loja = await this.repository.findOne({
+      select: ['id'],
+      where: { id: updateLojaDto.id },
+    });
+
+    if (!loja) {
+      throw new HttpException(
+        EMensagem.IMPOSSIVEL_ALTERAR,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    const updateLoja = new Loja(updateLojaDto);
+
+    return await this.repository.save(updateLoja);
   }
 
   async remove(id: number): Promise<boolean> {

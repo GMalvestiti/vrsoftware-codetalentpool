@@ -38,8 +38,13 @@ export class LojaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLojaDto: UpdateLojaDto) {
-    return this.lojaService.update(+id, updateLojaDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateLojaDto: UpdateLojaDto,
+  ): Promise<IResponse<Loja>> {
+    const data = await this.lojaService.update(id, updateLojaDto);
+
+    return new HttpResponse<Loja>(data).onUpdate();
   }
 
   @Delete(':id')
