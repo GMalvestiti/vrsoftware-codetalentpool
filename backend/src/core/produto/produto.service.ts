@@ -41,7 +41,18 @@ export class ProdutoService {
     return `This action updates a #${id} produto`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} produto`;
+  async remove(id: number): Promise<boolean> {
+    const produto = await this.repository.findOne({ where: { id: id } });
+
+    if (!produto) {
+      throw new HttpException(
+        EMensagem.IMPOSSIVEL_REMOVER,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    await this.repository.delete(produto);
+
+    return true;
   }
 }

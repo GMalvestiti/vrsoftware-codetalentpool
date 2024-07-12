@@ -43,7 +43,9 @@ export class LojaController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lojaService.remove(+id);
+  async remove(@Param('id') id: number): Promise<IResponse<boolean>> {
+    const data = await this.lojaService.remove(id);
+
+    return new HttpResponse<boolean>(data).onDeleted();
   }
 }

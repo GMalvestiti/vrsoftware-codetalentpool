@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { EMensagem } from '../../shared/enums/mensagem.enum';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
 import { Loja } from './entities/loja.entity';
@@ -30,7 +31,18 @@ export class LojaService {
     return `This action updates a #${id} loja`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} loja`;
+  async remove(id: number): Promise<boolean> {
+    const loja = await this.repository.findOne({ where: { id: id } });
+
+    if (!loja) {
+      throw new HttpException(
+        EMensagem.IMPOSSIVEL_REMOVER,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    await this.repository.delete(loja);
+
+    return true;
   }
 }
