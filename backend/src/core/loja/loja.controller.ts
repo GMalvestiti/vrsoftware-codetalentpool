@@ -1,23 +1,28 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { LojaService } from './loja.service';
+import { HttpResponse } from '../../shared/classes/http-response';
+import { IResponse } from '../../shared/interfaces/response.interface';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
+import { Loja } from './entities/loja.entity';
+import { LojaService } from './loja.service';
 
 @Controller('loja')
 export class LojaController {
   constructor(private readonly lojaService: LojaService) {}
 
   @Post()
-  create(@Body() createLojaDto: CreateLojaDto) {
-    return this.lojaService.create(createLojaDto);
+  async create(@Body() createLojaDto: CreateLojaDto): Promise<IResponse<Loja>> {
+    const data = await this.lojaService.create(createLojaDto);
+
+    return new HttpResponse<Loja>(data).onCreated();
   }
 
   @Get()

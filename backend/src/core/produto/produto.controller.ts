@@ -1,23 +1,27 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { ProdutoService } from './produto.service';
+import { HttpResponse } from '../../shared/classes/http-response';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { Produto } from './entities/produto.entity';
+import { ProdutoService } from './produto.service';
 
 @Controller('produto')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtoService.create(createProdutoDto);
+  async create(@Body() createProdutoDto: CreateProdutoDto) {
+    const data = await this.produtoService.create(createProdutoDto);
+
+    return new HttpResponse<Produto>(data).onCreated();
   }
 
   @Get()

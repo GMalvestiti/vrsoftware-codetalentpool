@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
+import { Loja } from './entities/loja.entity';
 
 @Injectable()
 export class LojaService {
-  create(createLojaDto: CreateLojaDto) {
-    return 'This action adds a new loja';
+  @InjectRepository(Loja)
+  private repository: Repository<Loja>;
+
+  async create(createLojaDto: CreateLojaDto): Promise<Loja> {
+    const loja = new Loja(createLojaDto);
+
+    const novaLoja = this.repository.create(loja);
+
+    return await this.repository.save(novaLoja);
   }
 
   findAll() {

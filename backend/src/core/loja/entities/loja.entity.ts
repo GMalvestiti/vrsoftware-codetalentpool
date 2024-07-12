@@ -1,5 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProdutoLoja } from '../../produto/entities/produto-loja.entity';
+import { CreateLojaDto } from '../dto/create-loja.dto';
+import { UpdateLojaDto } from '../dto/update-loja.dto';
 
 @Entity('loja')
 export class Loja {
@@ -19,4 +21,8 @@ export class Loja {
     orphanedRowAction: 'delete',
   })
   produtoloja: ProdutoLoja[];
+
+  constructor(createLojaDto: CreateLojaDto | UpdateLojaDto) {
+    Object.assign(this, createLojaDto);
+  }
 }
