@@ -36,5 +36,3 @@ function setupOpenApi(app: INestApplication): void {
     );
   }
 }
-
-// https://www.youtube.com/watch?v=jgpJVI3tDbY
