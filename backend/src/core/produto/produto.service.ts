@@ -48,7 +48,7 @@ export class ProdutoService {
     const where = handleFilter(filter);
 
     const [data, count] = await this.repository.findAndCount({
-      loadEagerRelations: false,
+      // loadEagerRelations: true,
       order: { [order.column]: order.sort },
       where,
       skip: size * page,

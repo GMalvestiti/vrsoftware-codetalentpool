@@ -22,7 +22,7 @@ export class LojaService {
 
   async findAll(): Promise<IResponse<Loja[]>> {
     const [data, count] = await this.repository.findAndCount({
-      loadEagerRelations: false,
+      // loadEagerRelations: false,
     });
 
     return { data, count, message: null };
