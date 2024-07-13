@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ProdutoService } from '../../../services/produto.service';
 import { BaseConsultaComponent } from '../../../shared/classes/base-consulta/base-consulta.component';
 import { AddActionComponent } from '../../../shared/components/header/add-action/add-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
+import { IProduto } from '../../../shared/interfaces/produto.interface';
 
 const actions = [AddActionComponent];
 const imports = [...actions, PageLayoutComponent, CommonModule];
@@ -17,7 +19,9 @@ const imports = [...actions, PageLayoutComponent, CommonModule];
   templateUrl: './produto-consulta.component.html',
   styleUrl: './produto-consulta.component.scss',
 })
-export class ProdutoConsultaComponent extends BaseConsultaComponent {
+export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
+  displayedColumns: string[] = ['id', 'descricao', 'custo', 'precoVenda'];
+
   filterFields: IFormField[] = [
     {
       type: EFieldType.INPUT,
@@ -56,7 +60,10 @@ export class ProdutoConsultaComponent extends BaseConsultaComponent {
     precoVenda: new FormControl(null),
   });
 
-  constructor(private readonly _injectorLocal: Injector) {
-    super(_injectorLocal);
+  constructor(
+    private readonly _produtoService: ProdutoService,
+    private readonly _injectorLocal: Injector,
+  ) {
+    super(_produtoService, _injectorLocal);
   }
 }
