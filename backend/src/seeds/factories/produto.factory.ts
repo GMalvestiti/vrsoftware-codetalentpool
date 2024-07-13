@@ -7,7 +7,8 @@ define(Produto, () => {
   const produto = new CreateProdutoDto();
 
   produto.descricao = faker.commerce.productName();
-  produto.custo = faker.commerce.price();
+  produto.custo = faker.number.float({ min: 1, max: 1000, precision: 3 });
+  produto.imagem = null;
 
   return new Produto(produto);
 });
