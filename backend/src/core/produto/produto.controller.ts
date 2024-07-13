@@ -6,9 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { HttpResponse } from '../../shared/classes/http-response';
+import {
+  IFindAllFilter,
+  IFindAllOrder,
+} from '../../shared/interfaces/find-all.interface';
 import { IResponse } from '../../shared/interfaces/response.interface';
+import { FindAllFilterPipe } from '../../shared/pipes/find-all-filter.pipe';
+import { FindAllOrderPipe } from '../../shared/pipes/find-all-order.pipe';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
@@ -25,9 +32,17 @@ export class ProdutoController {
     return new HttpResponse<Produto>(data).onCreated();
   }
 
-  @Get()
-  findAll() {
-    return this.produtoService.findAll();
+  @Get(':page/:size/:order')
+  async findAll(
+    @Param('page') page: number,
+    @Param('size') size: number,
+    @Param('order', FindAllOrderPipe) order: IFindAllOrder,
+    @Query('filter', FindAllFilterPipe)
+    filter: IFindAllFilter | IFindAllFilter[],
+  ): Promise<IResponse<Produto[]>> {
+    const data = await this.produtoService.findAll(page, size, order, filter);
+
+    return new HttpResponse<Produto[]>(data);
   }
 
   @Get(':id')

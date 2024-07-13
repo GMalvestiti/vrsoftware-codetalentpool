@@ -2,6 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
+import { handleFilter } from '../../shared/helpers/sql.helper';
+import {
+  IFindAllFilter,
+  IFindAllOrder,
+} from '../../shared/interfaces/find-all.interface';
+import { IResponse } from '../../shared/interfaces/response.interface';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ProdutoLoja } from './entities/produto-loja.entity';
@@ -33,8 +39,23 @@ export class ProdutoService {
     return await this.repository.save(novoProduto);
   }
 
-  findAll() {
-    return `This action returns all produto`;
+  async findAll(
+    page: number,
+    size: number,
+    order: IFindAllOrder,
+    filter?: IFindAllFilter | IFindAllFilter[],
+  ): Promise<IResponse<Produto[]>> {
+    const where = handleFilter(filter);
+
+    const [data, count] = await this.repository.findAndCount({
+      loadEagerRelations: false,
+      order: { [order.column]: order.sort },
+      where,
+      skip: size * page,
+      take: size,
+    });
+
+    return { data, count, message: null };
   }
 
   async findOne(id: number): Promise<Produto> {

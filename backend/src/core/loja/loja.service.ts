@@ -19,8 +19,8 @@ export class LojaService {
     return await this.repository.save(novaLoja);
   }
 
-  findAll() {
-    return `This action returns all loja`;
+  async findAll(): Promise<Loja[]> {
+    return await this.repository.find();
   }
 
   async findOne(id: number): Promise<Loja> {

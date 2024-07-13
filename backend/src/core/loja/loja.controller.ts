@@ -26,8 +26,10 @@ export class LojaController {
   }
 
   @Get()
-  findAll() {
-    return this.lojaService.findAll();
+  async findAll(): Promise<IResponse<Loja[]>> {
+    const data = await this.lojaService.findAll();
+
+    return new HttpResponse<Loja[]>(data);
   }
 
   @Get(':id')
