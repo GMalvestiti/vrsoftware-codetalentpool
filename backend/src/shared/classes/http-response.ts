@@ -5,10 +5,12 @@ import { ResponseData, ResponseMessage } from '../types/response.types';
 export class HttpResponse<T> implements IResponse<T> {
   message: ResponseMessage = '';
   data: ResponseData<T>;
+  count!: number;
 
-  constructor(data: ResponseData<T>, message?: '') {
+  constructor(data: ResponseData<T>, message?: '', count?: number) {
     this.message = message;
     this.data = data;
+    this.count = count;
   }
 
   onSuccess(message: string): IResponse<T> {

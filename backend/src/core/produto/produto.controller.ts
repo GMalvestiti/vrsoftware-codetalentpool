@@ -40,9 +40,14 @@ export class ProdutoController {
     @Query('filter', FindAllFilterPipe)
     filter: IFindAllFilter | IFindAllFilter[],
   ): Promise<IResponse<Produto[]>> {
-    const data = await this.produtoService.findAll(page, size, order, filter);
+    const { data, count } = await this.produtoService.findAll(
+      page,
+      size,
+      order,
+      filter,
+    );
 
-    return new HttpResponse<Produto[]>(data);
+    return new HttpResponse<Produto[]>(data, undefined, count);
   }
 
   @Get(':id')

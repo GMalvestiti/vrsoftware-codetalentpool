@@ -18,6 +18,7 @@ export class ResponseInterceptor<T>
     const responseFormatted = {
       message: data?.message ?? null,
       data: data?.data ?? data,
+      count: data?.count ?? undefined,
     };
 
     return responseFormatted as IResponse<T>;

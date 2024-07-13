@@ -8,16 +8,18 @@ export const handleFilter = (filter: IFindAllFilter | IFindAllFilter[]) => {
 
   const whereClause = {};
 
-  for (const filter of filters) {
-    if (typeof filter.value === 'string') {
-      Object.assign(whereClause, {
-        [filter.column]: ILike(`%${filter.value}%`),
-      });
-
+  for (const f of filters) {
+    if (f.value === 'true' || f.value === 'false') {
+      Object.assign(whereClause, { [f.column]: Boolean(f.value) });
       continue;
     }
 
-    Object.assign(whereClause, { [filter.column]: filter.value });
+    if (isNaN(Number(f.value))) {
+      Object.assign(whereClause, { [f.column]: ILike(`%${f.value}%`) });
+      continue;
+    }
+
+    Object.assign(whereClause, { [f.column]: Number(f.value) });
   }
 
   return whereClause;
