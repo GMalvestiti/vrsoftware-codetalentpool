@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
+import { IResponse } from '../../shared/interfaces/response.interface';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
 import { Loja } from './entities/loja.entity';
@@ -19,8 +20,12 @@ export class LojaService {
     return await this.repository.save(novaLoja);
   }
 
-  async findAll(): Promise<Loja[]> {
-    return await this.repository.find();
+  async findAll(): Promise<IResponse<Loja[]>> {
+    const [data, count] = await this.repository.findAndCount({
+      loadEagerRelations: false,
+    });
+
+    return { data, count, message: null };
   }
 
   async findOne(id: number): Promise<Loja> {
