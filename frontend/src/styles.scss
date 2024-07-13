@@ -36,6 +36,10 @@ $frontend-theme: mat.define-theme((
 // @include mat.color-variants-backwards-compatibility($frontend-theme);
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+  --color-primary: #1f1f1f;
+}
+
 html, body {
   height: 100%;
 }

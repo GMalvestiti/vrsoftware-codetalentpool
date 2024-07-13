@@ -1,0 +1,9 @@
+<app-header [title]="title">
+  <ng-container actions>
+    <ng-content select="[actions]"></ng-content>
+  </ng-container>
+</app-header>
+
+<div class="content">
+  <ng-content select="content"></ng-content>
+</div>
