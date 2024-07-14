@@ -1,1 +1,13 @@
-<p>produto-cadastro works!</p>
+<app-page-layout [title]="'Cadastro de Produto'">
+  <ng-container actions>
+    <app-add-action></app-add-action>
+  </ng-container>
+
+  <ng-container content>
+    <app-form-field-list
+      [fields]="cadastroFields"
+      [form]="cadastroForm"
+      [disableWatch]="true">
+    </app-form-field-list>
+  </ng-container>
+</app-page-layout>
