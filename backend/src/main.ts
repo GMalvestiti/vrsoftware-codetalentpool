@@ -2,12 +2,16 @@ import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import { ResponseExceptionsFilter } from './shared/filters/response-exception.filter';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalInterceptors(new ResponseInterceptor());

@@ -63,7 +63,7 @@ export class FormFieldComponent {
     const target = event.target as HTMLInputElement;
     const file = target.files?.item(0);
 
-    if (file) {
+    if (file && file instanceof File) {
       fileToBase64(file)
         .then(base64String => {
           this.form.patchValue({ [this.field.formControlName]: base64String });

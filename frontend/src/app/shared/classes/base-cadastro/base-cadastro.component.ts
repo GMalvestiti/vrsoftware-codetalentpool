@@ -49,6 +49,7 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
 
   protected patchFormForEdit(payload: T): void {
     const values = this.buildPatchValuesFormEdit(payload);
+    console.log(values);
     this.cadastroForm.patchValue({ ...values });
   }
 
@@ -78,6 +79,10 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     this.cadastroForm.markAllAsTouched();
 
     if (!this.cadastroForm.valid) {
+      return;
+    }
+
+    if (this.cadastroFormValues === this.initialFormValues) {
       return;
     }
 

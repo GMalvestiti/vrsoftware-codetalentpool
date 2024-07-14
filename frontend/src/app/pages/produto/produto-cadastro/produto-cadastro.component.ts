@@ -8,6 +8,7 @@ import { DeleteActionComponent } from '../../../shared/components/header/delete-
 import { SaveActionComponent } from '../../../shared/components/header/save-action/save-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
+import { fileToBase64 } from '../../../shared/helpers/image.helper';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IProduto } from '../../../shared/interfaces/produto.interface';
 
@@ -37,7 +38,7 @@ export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
       Validators.maxLength(60),
     ]),
     custo: new FormControl(null, [Validators.min(0)]),
-    imagem: new FormControl(null),
+    imagem: new FormControl<string | null>(null),
     produtoloja: new FormControl(
       [],
       [Validators.required, Validators.minLength(1)],
@@ -74,4 +75,17 @@ export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
       placeholder: '',
     },
   ];
+
+  async beforeSave() {
+    const image = this.cadastroForm.get('imagem')?.value;
+
+    if (image) {
+      const file = new File([image], 'filename');
+      const base64 = await fileToBase64(file);
+
+      this.cadastroForm.get('imagem')?.setValue(base64);
+    }
+
+    this.save();
+  }
 }

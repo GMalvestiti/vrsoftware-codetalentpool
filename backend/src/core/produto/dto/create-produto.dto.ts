@@ -20,12 +20,14 @@ export class CreateProdutoDto {
 
   @IsOptional()
   @IsNumber({}, { message: `custo ${EMensagem.TIPO_INVALIDO}` })
+  @Type(() => Number)
   custo: number;
 
   @IsOptional()
   @IsBase64({}, { message: `imagem ${EMensagem.TIPO_INVALIDO}` })
   imagem: string;
 
+  @IsNotEmpty({ message: `descricao ${EMensagem.NAO_PODE_SER_VAZIO}` })
   @IsArray({ message: `produtoloja ${EMensagem.TIPO_INVALIDO}` })
   @Type(() => CreateProdutoLojaDto)
   produtoloja: CreateProdutoLojaDto[] | UpdateProdutoLojaDto[];

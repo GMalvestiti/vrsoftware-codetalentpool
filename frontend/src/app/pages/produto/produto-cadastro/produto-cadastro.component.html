@@ -1,6 +1,6 @@
 <app-page-layout [title]="'Cadastro de Produto'">
   <ng-container actions>
-    <app-save-action (eventEmitter)="save()"></app-save-action>
+    <app-save-action (eventEmitter)="beforeSave()"></app-save-action>
     <app-delete-action
       *ngIf="idEdit"
       (eventEmitter)="delete()"></app-delete-action>
