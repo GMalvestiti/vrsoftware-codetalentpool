@@ -22,8 +22,8 @@ export class Produto {
 
   @OneToMany(() => ProdutoLoja, (produtoloja) => produtoloja.produto, {
     eager: true,
+    cascade: true,
     onDelete: 'CASCADE',
-    cascade: ['insert', 'remove'],
     orphanedRowAction: 'delete',
   })
   produtoloja: ProdutoLoja[];

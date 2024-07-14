@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
 import { IResponse } from '../../shared/interfaces/response.interface';
+import { ProdutoLoja } from '../produto/entities/produto-loja.entity';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
 import { Loja } from './entities/loja.entity';
@@ -11,6 +12,9 @@ import { Loja } from './entities/loja.entity';
 export class LojaService {
   @InjectRepository(Loja)
   private repository: Repository<Loja>;
+
+  @InjectRepository(ProdutoLoja)
+  private repositoryProdutoLoja: Repository<ProdutoLoja>;
 
   async create(createLojaDto: CreateLojaDto): Promise<Loja> {
     const loja = new Loja(createLojaDto);
@@ -67,7 +71,9 @@ export class LojaService {
       );
     }
 
-    await this.repository.delete(loja);
+    await this.repositoryProdutoLoja.delete({ idLoja: id });
+
+    await this.repository.delete(id);
 
     return true;
   }

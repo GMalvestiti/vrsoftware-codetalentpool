@@ -42,6 +42,7 @@ $frontend-theme: mat.define-theme((
 
 html, body {
   height: 100%;
+  background-color: var(--color-gray-50);
 }
 
 body {
@@ -51,4 +52,31 @@ body {
 
 [disabled] {
   cursor: not-allowed;
+}
+
+.consulta-edit-icon {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.consulta-actions-container {
+  text-align: right !important;
+  width: 6rem;
+}
+
+.mat-mdc-table {
+  margin-top: 1.4rem;
+  background-color: white !important;
+  border: 1px solid var(--color-primary) !important;
+}
+
+.mat-mdc-paginator {
+  background-color: white !important;
+  border-left: 1px solid var(--color-primary) !important;
+  border-right: 1px solid var(--color-primary) !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  caret-color: var(--color-primary) !important;
 }

@@ -48,7 +48,7 @@ export class ProdutoService {
     const where = handleFilter(filter);
 
     const [data, count] = await this.repository.findAndCount({
-      // loadEagerRelations: true,
+      // loadEagerRelations: false,
       order: { [order.column]: order.sort },
       where,
       skip: size * page,
@@ -106,7 +106,9 @@ export class ProdutoService {
       );
     }
 
-    await this.repository.delete(produto);
+    await this.repositoryProdutoLoja.delete({ idProduto: id });
+
+    await this.repository.delete(id);
 
     return true;
   }

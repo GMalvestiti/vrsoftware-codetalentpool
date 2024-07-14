@@ -77,4 +77,14 @@ export abstract class BaseConsultaComponent<T>
       this.paginatorEl.length = response.count as number;
     });
   }
+
+  editar(id: number): void {
+    this._router.navigate([`../cadastro/${id}`], { relativeTo: this._route });
+  }
+
+  deletar(id: number): void {
+    this._service.delete(id).subscribe(() => {
+      this.search();
+    });
+  }
 }

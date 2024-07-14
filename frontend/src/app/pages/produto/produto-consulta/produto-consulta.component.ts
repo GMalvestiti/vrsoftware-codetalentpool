@@ -42,7 +42,7 @@ const imports = [
   templateUrl: './produto-consulta.component.html',
 })
 export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
-  displayedColumns: string[] = ['id', 'descricao', 'custo'];
+  displayedColumns: string[] = ['id', 'descricao', 'custo', 'acoes'];
 
   filterFields: IFormField[] = [
     {
