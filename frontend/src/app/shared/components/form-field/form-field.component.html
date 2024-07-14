@@ -2,7 +2,7 @@
   <span class="field-label">{{ label }}</span>
 
   <ng-container [ngSwitch]="field.type">
-    <mat-form-field *ngSwitchCase="typeInput">
+    <mat-form-field *ngSwitchCase="typeInput" appearance="outline">
       <input
         type="text"
         matInput
