@@ -5,7 +5,6 @@ export const handleFilter = (filter: IFindAllFilter | IFindAllFilter[]) => {
   if (!filter) return {};
 
   const filters = Array.isArray(filter) ? filter : [filter];
-
   const whereClause = {};
 
   for (const f of filters) {

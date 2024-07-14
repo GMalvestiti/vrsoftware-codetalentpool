@@ -30,6 +30,7 @@ export class ProdutoLoja {
   @ManyToOne(() => Produto, (produto) => produto.id)
   @JoinColumn({
     name: 'idProduto',
+    referencedColumnName: 'id',
     foreignKeyConstraintName: 'fk_produto',
   })
   produto: Produto;
@@ -37,6 +38,7 @@ export class ProdutoLoja {
   @ManyToOne(() => Loja, (loja) => loja.id)
   @JoinColumn({
     name: 'idLoja',
+    referencedColumnName: 'id',
     foreignKeyConstraintName: 'fk_loja',
   })
   loja: Loja;

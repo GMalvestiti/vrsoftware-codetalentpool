@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
+import { handleSort } from '../../shared/helpers/sort.helper';
 import { handleFilter } from '../../shared/helpers/sql.helper';
 import {
   IFindAllFilter,
@@ -45,15 +46,31 @@ export class ProdutoService {
     order: IFindAllOrder,
     filter?: IFindAllFilter | IFindAllFilter[],
   ): Promise<IResponse<Produto[]>> {
-    const where = handleFilter(filter);
+    const sort: 'ASC' | 'DESC' = handleSort(order.sort);
 
-    const [data, count] = await this.repository.findAndCount({
-      // loadEagerRelations: false,
-      order: { [order.column]: order.sort },
-      where,
-      skip: size * page,
-      take: size,
-    });
+    const whereClause = handleFilter(filter);
+
+    const queryBuilder = this.repository
+      .createQueryBuilder('produto')
+      .leftJoinAndSelect('produto.produtoloja', 'produtoloja')
+      .orderBy(`produto.${order.column}`, sort)
+      .skip(size * page)
+      .take(size);
+
+    if (whereClause && whereClause['precoVenda']) {
+      queryBuilder.andWhere('produtoloja.precoVenda = :precoVenda', {
+        precoVenda: whereClause['precoVenda'],
+      });
+      delete whereClause['precoVenda'];
+    }
+
+    if (Object.keys(whereClause).length > 0) {
+      Object.entries(whereClause).forEach(([key, value]) => {
+        queryBuilder.andWhere(`produto.${key} = :${key}`, { [key]: value });
+      });
+    }
+
+    const [data, count] = await queryBuilder.getManyAndCount();
 
     return { data, count, message: null };
   }
