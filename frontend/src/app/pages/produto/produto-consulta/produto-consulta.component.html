@@ -27,8 +27,8 @@
       </ng-container>
 
       <ng-container matColumnDef="custo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Custo</th>
-        <td mat-cell *matCellDef="let row">{{ row.custo }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Custo (R$)</th>
+        <td mat-cell *matCellDef="let row">{{ row.custo | formatCusto }}</td>
       </ng-container>
 
       <ng-container matColumnDef="acoes">

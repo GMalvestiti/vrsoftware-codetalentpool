@@ -14,6 +14,7 @@ import { PageLayoutComponent } from '../../../shared/components/page-layout/page
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IProduto } from '../../../shared/interfaces/produto.interface';
+import { FormatCustoPipe } from '../../../shared/pipes/format-custo.pipe';
 import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
 
 const actions = [AddActionComponent];
@@ -25,7 +26,7 @@ const table = [
   MatIconModule,
   EmptyRowComponent,
 ];
-const pipes = [FormatIdPipe];
+const pipes = [FormatIdPipe, FormatCustoPipe];
 const imports = [
   ...actions,
   ...form,
