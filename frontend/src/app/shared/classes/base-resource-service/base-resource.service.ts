@@ -37,6 +37,10 @@ export abstract class BaseResourceService<T> {
     const sizeParam = page.pageSize;
     const filterQuery = handleFindAllFilter(filter);
 
+    console.log(
+      `${this.url}/${pageParam}/${sizeParam}/${orderParam}?filter=${filterQuery}`,
+    );
+
     return this._http
       .get<
         IResponse<T[]>

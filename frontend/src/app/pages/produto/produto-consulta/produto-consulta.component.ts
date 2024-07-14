@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ProdutoService } from '../../../services/produto.service';
 import { BaseConsultaComponent } from '../../../shared/classes/base-consulta/base-consulta.component';
+import { EmptyRowComponent } from '../../../shared/components/empty-row/empty-row.component';
 import { FormFieldListComponent } from '../../../shared/components/form-field-list/form-field-list.component';
 import { AddActionComponent } from '../../../shared/components/header/add-action/add-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
@@ -16,7 +18,13 @@ import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
 
 const actions = [AddActionComponent];
 const form = [FormFieldListComponent];
-const table = [MatTableModule, MatSortModule, MatPaginatorModule];
+const table = [
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatIconModule,
+  EmptyRowComponent,
+];
 const pipes = [FormatIdPipe];
 const imports = [
   ...actions,
