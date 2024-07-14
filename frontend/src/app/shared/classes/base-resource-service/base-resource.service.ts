@@ -17,7 +17,7 @@ export abstract class BaseResourceService<T> {
     path: string,
   ) {
     this._http = this._injector.get(HttpClient);
-    this.url = `http://localhost:${port}/api/v1/${path}`;
+    this.url = `http://localhost:${port}/${path}`;
   }
 
   findGlobal(): Observable<IResponse<T[]>> {

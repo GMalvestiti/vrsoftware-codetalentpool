@@ -6,15 +6,26 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ProdutoService } from '../../../services/produto.service';
 import { BaseConsultaComponent } from '../../../shared/classes/base-consulta/base-consulta.component';
+import { FormFieldListComponent } from '../../../shared/components/form-field-list/form-field-list.component';
 import { AddActionComponent } from '../../../shared/components/header/add-action/add-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IProduto } from '../../../shared/interfaces/produto.interface';
+import { FormatIdPipe } from '../../../shared/pipes/format-id.pipe';
 
 const actions = [AddActionComponent];
+const form = [FormFieldListComponent];
 const table = [MatTableModule, MatSortModule, MatPaginatorModule];
-const imports = [...actions, ...table, PageLayoutComponent, CommonModule];
+const pipes = [FormatIdPipe];
+const imports = [
+  ...actions,
+  ...form,
+  ...table,
+  ...pipes,
+  PageLayoutComponent,
+  CommonModule,
+];
 
 @Component({
   selector: 'app-produto-consulta',

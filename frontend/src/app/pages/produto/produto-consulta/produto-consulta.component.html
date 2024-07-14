@@ -3,5 +3,11 @@
     <app-add-action></app-add-action>
   </ng-container>
 
-  <ng-container content>teste</ng-container>
+  <ng-container content>
+    <app-form-field-list
+      [form]="filterFormGroup"
+      [fields]="filterFields"
+      (eventEmitter)="search()">
+    </app-form-field-list>
+  </ng-container>
 </app-page-layout>
