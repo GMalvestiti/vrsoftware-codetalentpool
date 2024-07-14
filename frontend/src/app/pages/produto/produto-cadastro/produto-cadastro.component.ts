@@ -11,7 +11,7 @@ import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IProduto } from '../../../shared/interfaces/produto.interface';
 
-const actions = [DeleteActionComponent, SaveActionComponent];
+const actions = [SaveActionComponent, DeleteActionComponent];
 const form = [FormFieldListComponent];
 const imports = [...actions, ...form, PageLayoutComponent, CommonModule];
 
