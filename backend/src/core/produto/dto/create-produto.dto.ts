@@ -4,6 +4,7 @@ import {
   IsBase64,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   MaxLength,
 } from 'class-validator';
 import { EMensagem } from '../../../shared/enums/mensagem.enum';
@@ -17,9 +18,11 @@ export class CreateProdutoDto {
   })
   descricao: string;
 
+  @IsOptional()
   @IsNumber({}, { message: `custo ${EMensagem.TIPO_INVALIDO}` })
   custo: number;
 
+  @IsOptional()
   @IsBase64({}, { message: `imagem ${EMensagem.TIPO_INVALIDO}` })
   imagem: string;
 

@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { EMensagem } from '../../../shared/enums/mensagem.enum';
 
 export class CreateProdutoLojaDto {
@@ -6,6 +6,7 @@ export class CreateProdutoLojaDto {
   @IsInt({ message: `idLoja ${EMensagem.TIPO_INVALIDO}` })
   idLoja: number;
 
+  @IsOptional()
   @IsNumber({}, { message: `precoVenda ${EMensagem.TIPO_INVALIDO}` })
-  custo: number;
+  precoVenda: number;
 }
