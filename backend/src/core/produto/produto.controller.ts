@@ -54,6 +54,12 @@ export class ProdutoController {
   async findOne(@Param('id') id: number): Promise<IResponse<Produto>> {
     const data = await this.produtoService.findOne(id);
 
+    data.custo ? (data.custo = Number(data.custo)) : null;
+
+    for (const produtoLoja of data.produtoloja) {
+      produtoLoja.precoVenda = Number(produtoLoja.precoVenda);
+    }
+
     return new HttpResponse<Produto>(data);
   }
 
