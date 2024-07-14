@@ -17,6 +17,15 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <ng-container *ngSwitchCase="typeImage">
+      <input
+        type="file"
+        accept="image/png, image/jpeg"
+        (change)="onFileChange($event)"
+        #fileInput />
+      <button color="default" (click)="fileInput.click()">Upload</button>
+    </ng-container>
   </ng-container>
 
   <mat-error>{{ error }}</mat-error>

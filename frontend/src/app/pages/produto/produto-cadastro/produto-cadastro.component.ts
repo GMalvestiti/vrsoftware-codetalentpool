@@ -65,12 +65,12 @@ export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
       formControlName: 'custo',
       placeholder: 'Ex.: 9.999',
     },
-    /*{
+    {
       type: EFieldType.IMAGE,
       class: 'grid-1',
       label: 'Imagem',
       formControlName: 'imagem',
       placeholder: '',
-    },*/
+    },
   ];
 }

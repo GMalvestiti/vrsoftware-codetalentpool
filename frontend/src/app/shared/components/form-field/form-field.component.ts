@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { EFieldType } from '../../enums/field-type.enum';
 import { controlErrorMessages } from '../../helpers/form-error.helper';
+import { fileToBase64 } from '../../helpers/image.helper';
 import { IFormField } from '../../interfaces/form-field.interface';
 
 const form = [ReactiveFormsModule, FormsModule];
@@ -56,5 +57,20 @@ export class FormFieldComponent {
     if (!this.control || !this.control.touched) return '';
 
     return controlErrorMessages(this.control);
+  }
+
+  onFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.item(0);
+
+    if (file) {
+      fileToBase64(file)
+        .then(base64String => {
+          this.form.patchValue({ [this.field.formControlName]: base64String });
+        })
+        .catch(error => {
+          console.error('Error converting file to base64:', error);
+        });
+    }
   }
 }

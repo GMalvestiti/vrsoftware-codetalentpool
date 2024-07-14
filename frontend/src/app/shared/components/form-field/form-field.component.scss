@@ -12,6 +12,10 @@
   mat-form-field {
     width: 100%;
   }
+
+  input[type='file'] {
+    display: none !important;
+  }
 }
 
 :host .form-field ::ng-deep .mat-mdc-text-field-wrapper {
