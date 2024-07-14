@@ -4,13 +4,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProdutoService } from '../../../services/produto.service';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
 import { FormFieldListComponent } from '../../../shared/components/form-field-list/form-field-list.component';
-import { AddActionComponent } from '../../../shared/components/header/add-action/add-action.component';
+import { DeleteActionComponent } from '../../../shared/components/header/delete-action/delete-action.component';
+import { SaveActionComponent } from '../../../shared/components/header/save-action/save-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import { IProduto } from '../../../shared/interfaces/produto.interface';
 
-const actions = [AddActionComponent];
+const actions = [DeleteActionComponent, SaveActionComponent];
 const form = [FormFieldListComponent];
 const imports = [...actions, ...form, PageLayoutComponent, CommonModule];
 

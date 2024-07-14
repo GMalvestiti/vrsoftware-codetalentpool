@@ -74,7 +74,7 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     });
   }
 
-  save(): void {
+  save() {
     this.cadastroForm.markAllAsTouched();
 
     if (!this.cadastroForm.valid) {
@@ -110,5 +110,13 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
   protected actionsAfterSave(data: T): void {
     this.cadastroForm.markAsUntouched();
     this.navigateToEditar(data.id);
+  }
+
+  delete() {
+    if (!this.idEdit) return;
+
+    this._service.delete(this.idEdit).subscribe(() => {
+      this.navigateToCadastro();
+    });
   }
 }
