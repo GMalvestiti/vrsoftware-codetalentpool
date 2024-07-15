@@ -89,4 +89,8 @@ export class ProdutoConsultaComponent extends BaseConsultaComponent<IProduto> {
   ) {
     super(_produtoService, _injectorLocal);
   }
+
+  add(): void {
+    this._router.navigate(['../cadastro'], { relativeTo: this._route });
+  }
 }

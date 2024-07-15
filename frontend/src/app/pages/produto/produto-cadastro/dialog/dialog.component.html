@@ -1,0 +1,14 @@
+<app-page-layout [title]="'Alteração/Inclusão de Preço'">
+  <ng-container actions>
+    <app-save-action (eventEmitter)="save()"></app-save-action>
+    <app-cancel-action (eventEmitter)="closeDialog()"></app-cancel-action>
+  </ng-container>
+
+  <ng-container content>
+    <app-form-field-list
+      [fields]="cadastroFields"
+      [form]="cadastroForm"
+      [disableWatch]="true">
+    </app-form-field-list>
+  </ng-container>
+</app-page-layout>

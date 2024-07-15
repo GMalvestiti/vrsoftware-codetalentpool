@@ -3,12 +3,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-add-action',
+  selector: 'app-cancel-action',
   standalone: true,
   imports: [MatIconModule],
-  templateUrl: './add-action.component.html',
+  templateUrl: './cancel-action.component.html',
 })
-export class AddActionComponent {
+export class CancelActionComponent {
   @Output() eventEmitter = new EventEmitter<void>();
 
   constructor(
@@ -16,7 +16,7 @@ export class AddActionComponent {
     private readonly _route: ActivatedRoute,
   ) {}
 
-  add(): void {
+  cancel(): void {
     this.eventEmitter.emit();
   }
 }

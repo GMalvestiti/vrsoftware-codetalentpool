@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Injector } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -10,6 +11,7 @@ import { ProdutoLojaService } from '../../../services/produtoloja.service';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
 import { EmptyRowComponent } from '../../../shared/components/empty-row/empty-row.component';
 import { FormFieldListComponent } from '../../../shared/components/form-field-list/form-field-list.component';
+import { AddActionComponent } from '../../../shared/components/header/add-action/add-action.component';
 import { DeleteActionComponent } from '../../../shared/components/header/delete-action/delete-action.component';
 import { SaveActionComponent } from '../../../shared/components/header/save-action/save-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
@@ -21,8 +23,13 @@ import {
   IProdutoLoja,
 } from '../../../shared/interfaces/produto.interface';
 import { FormatCustoPipe } from '../../../shared/pipes/format-custo.pipe';
+import { DialogComponent } from './dialog/dialog.component';
 
-const actions = [SaveActionComponent, DeleteActionComponent];
+const actions = [
+  SaveActionComponent,
+  DeleteActionComponent,
+  AddActionComponent,
+];
 const form = [FormFieldListComponent];
 const pipes = [FormatCustoPipe];
 const table = [
@@ -56,12 +63,15 @@ export class ProdutoCadastroComponent
   dataSource: IProdutoLoja[] = [];
   produtoLojaCadastro: IProdutoLoja[] = [];
 
+  private readonly _dialog!: MatDialog;
+
   constructor(
     private readonly _produtoService: ProdutoService,
     private readonly _produtoLojaService: ProdutoLojaService,
     protected override readonly _injector: Injector,
   ) {
     super(_produtoService, _injector);
+    this._dialog = this._injector.get(MatDialog);
   }
 
   override afterOnInit() {
@@ -157,5 +167,33 @@ export class ProdutoCadastroComponent
         this.search();
       });
     }
+  }
+
+  openDialog() {
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: true,
+      width: '600px',
+      height: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        result.precoVenda = Number(result.precoVenda);
+
+        let found = false;
+        this.dataSource.map(produtoLoja => {
+          if (produtoLoja.idLoja == result.idLoja) {
+            produtoLoja.precoVenda = result.precoVenda;
+            found = true;
+          }
+        });
+
+        if (!found) {
+          this.produtoLojaCadastro.push(result);
+        }
+
+        this.dataSource = this.produtoLojaCadastro;
+      }
+    });
   }
 }

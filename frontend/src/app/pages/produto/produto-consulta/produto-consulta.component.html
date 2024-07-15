@@ -1,6 +1,6 @@
 <app-page-layout [title]="'Consulta de Produto'">
   <ng-container actions>
-    <app-add-action></app-add-action>
+    <app-add-action (eventEmitter)="add()"></app-add-action>
   </ng-container>
 
   <ng-container content>

@@ -33,8 +33,8 @@ export abstract class BaseConsultaComponent<T>
     return this.filterFormGroup.getRawValue();
   }
 
-  private readonly _router!: Router;
-  private readonly _route!: ActivatedRoute;
+  protected readonly _router!: Router;
+  protected readonly _route!: ActivatedRoute;
 
   constructor(
     private readonly _service: BaseResourceService<T>,
