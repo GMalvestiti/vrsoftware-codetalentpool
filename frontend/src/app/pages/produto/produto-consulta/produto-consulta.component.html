@@ -54,7 +54,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" (dblclick)="editar(row.id)"></tr>
 
       <app-empty-row *matNoDataRow></app-empty-row>
     </table>
