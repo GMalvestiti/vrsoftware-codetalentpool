@@ -98,8 +98,8 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
 
     if (!this.cadastroForm.valid) {
       this.openSnackBar({
-        message: EMensagem.SNACKBAR_FORM_INVALIDO
-      })
+        message: EMensagem.SNACKBAR_FORM_INVALIDO,
+      });
       return;
     }
 
@@ -112,6 +112,12 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     } else {
       this.saveCadastro();
     }
+
+    this.openSnackBar({
+      message: this.idEdit
+        ? EMensagem.SNACKBAR_ATUALIZADO_SUCESSO
+        : EMensagem.SNACKBAR_CADASTRO_SUCESSO,
+    });
   }
 
   protected saveEditar(): void {
