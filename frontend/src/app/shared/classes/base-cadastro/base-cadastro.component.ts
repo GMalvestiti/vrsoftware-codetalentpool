@@ -116,6 +116,7 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
   protected actionsAfterUpdate(data: T): void {
     this.cadastroForm.markAsUntouched();
     this.navigateToEditar(data.id);
+    console.log('Atualizado com sucesso');
   }
 
   protected saveCadastro(): void {

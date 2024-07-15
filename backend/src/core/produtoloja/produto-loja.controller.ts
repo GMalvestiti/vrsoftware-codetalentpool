@@ -50,6 +50,8 @@ export class ProdutoLojaController {
 
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<IResponse<boolean>> {
+    console.log(id);
+
     const data = await this.produtoLojaService.remove(id);
 
     return new HttpResponse<boolean>(data).onDeleted();

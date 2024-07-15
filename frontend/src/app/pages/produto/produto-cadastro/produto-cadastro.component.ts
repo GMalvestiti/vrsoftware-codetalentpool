@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Injector } from '@angular/core';
+import { AfterViewInit, Component, Injector, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatTable, MatTableModule } from '@angular/material/table';
 import { ProdutoService } from '../../../services/produto.service';
 import { ProdutoLojaService } from '../../../services/produtoloja.service';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
@@ -59,6 +59,8 @@ export class ProdutoCadastroComponent
   extends BaseCadastroComponent<IProduto>
   implements AfterViewInit
 {
+  @ViewChild(MatTable) table!: MatTable<IProdutoLoja>;
+
   displayedColumns: string[] = ['loja', 'precoVenda', 'acoes'];
   dataSource: IProdutoLoja[] = [];
   produtoLojaCadastro: IProdutoLoja[] = [];
@@ -87,7 +89,7 @@ export class ProdutoCadastroComponent
     ]),
     custo: new FormControl(null, [Validators.min(0)]),
     imagem: new FormControl<string | null>(null),
-    produtoloja: new FormControl(
+    produtoloja: new FormControl<IProdutoLoja[]>(
       [],
       [Validators.required, Validators.minLength(1)],
     ),
@@ -134,6 +136,8 @@ export class ProdutoCadastroComponent
       this.cadastroForm.get('imagem')?.setValue(base64);
     }
 
+    this.cadastroForm.get('produtoloja')?.setValue(this.dataSource);
+
     this.save();
   }
 
@@ -159,13 +163,24 @@ export class ProdutoCadastroComponent
 
       this.dataSource = this.produtoLojaCadastro;
     } else {
-      if (this.produtoLojaCadastro.length <= 1) {
+      if (this.dataSource.length <= 1) {
         return;
       }
 
-      this._produtoLojaService.delete(id).subscribe(() => {
-        this.search();
-      });
+      const idNull = this.dataSource.find(
+        produtoLoja => produtoLoja.id == null,
+      );
+
+      if (idNull) {
+        this.dataSource = this.dataSource.filter(
+          produtoLoja => produtoLoja.id !== id,
+        );
+        this.table.renderRows();
+      } else {
+        this._produtoLojaService.delete(id).subscribe(() => {
+          this.search();
+        });
+      }
     }
   }
 
@@ -189,10 +204,10 @@ export class ProdutoCadastroComponent
         });
 
         if (!found) {
-          this.produtoLojaCadastro.push(result);
+          result.idProduto = this.idEdit;
+          this.dataSource.push(result);
+          this.table.renderRows();
         }
-
-        this.dataSource = this.produtoLojaCadastro;
       }
     });
   }
