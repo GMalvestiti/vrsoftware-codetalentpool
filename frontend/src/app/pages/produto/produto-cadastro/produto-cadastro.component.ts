@@ -64,7 +64,6 @@ export class ProdutoCadastroComponent
 
   displayedColumns: string[] = ['loja', 'precoVenda', 'acoes'];
   dataSource: IProdutoLoja[] = [];
-  produtoLojaCadastro: IProdutoLoja[] = [];
 
   private readonly _dialog!: MatDialog;
 
@@ -158,11 +157,9 @@ export class ProdutoCadastroComponent
 
   deleteProdutoLoja(id: number) {
     if (!this.idEdit) {
-      this.produtoLojaCadastro = this.produtoLojaCadastro.filter(
+      this.dataSource = this.dataSource.filter(
         produtoLoja => produtoLoja.id !== id,
       );
-
-      this.dataSource = this.produtoLojaCadastro;
     } else {
       if (this.dataSource.length <= 1) {
         return;
@@ -210,8 +207,8 @@ export class ProdutoCadastroComponent
           this.table.renderRows();
         } else {
           this.openSnackBar({
-            message: EMensagem.SNACKBAR_PRODUTO_DIALOG_PRECO_VENDA
-          })
+            message: EMensagem.SNACKBAR_PRODUTO_DIALOG_PRECO_VENDA,
+          });
         }
       }
     });

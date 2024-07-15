@@ -9,12 +9,15 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { LojaService } from '../../../../services/loja.service';
 import { FormFieldListComponent } from '../../../../shared/components/form-field-list/form-field-list.component';
 import { CancelActionComponent } from '../../../../shared/components/header/cancel-action/cancel-action.component';
 import { SaveActionComponent } from '../../../../shared/components/header/save-action/save-action.component';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout.component';
+import { SnackbarComponent } from '../../../../shared/components/snackbar/snackbar.component';
 import { EFieldType } from '../../../../shared/enums/field-type.enum';
+import { EMensagem } from '../../../../shared/enums/mensagem.enum';
 import {
   IFormField,
   ILabelValue,
@@ -23,6 +26,7 @@ import {
   ILoja,
   IProdutoLoja,
 } from '../../../../shared/interfaces/produto.interface';
+import { ISnackbarData } from '../../../../shared/interfaces/snackbar-data.interface';
 import { PagesComponent } from '../../../pages.component';
 
 @Component({
@@ -47,12 +51,14 @@ export class DialogComponent implements OnInit {
   private lojas: ILoja[] = [];
 
   private readonly _lojaService: LojaService;
+  private readonly _snackBar!: MatSnackBar;
 
   constructor(
     protected readonly _injector: Injector,
     private cdr: ChangeDetectorRef,
   ) {
     this._lojaService = this._injector.get(LojaService);
+    this._snackBar = this._injector.get(MatSnackBar);
   }
 
   ngOnInit(): void {
@@ -106,10 +112,31 @@ export class DialogComponent implements OnInit {
   }
 
   save(): void {
+    if (
+      this.cadastroForm.invalid ||
+      this.cadastroFormValues.precoVenda == null
+    ) {
+      this.openSnackBar({
+        message: EMensagem.SNACKBAR_FORM_INVALIDO,
+      });
+      return;
+    }
+
     this.dialogRef.close(this.cadastroFormValues);
   }
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  protected openSnackBar(data: ISnackbarData, duration = 5000) {
+    this._snackBar.openFromComponent<SnackbarComponent, ISnackbarData>(
+      SnackbarComponent,
+      {
+        duration,
+        data,
+        horizontalPosition: 'center',
+      },
+    );
   }
 }
