@@ -16,6 +16,7 @@ import { DeleteActionComponent } from '../../../shared/components/header/delete-
 import { SaveActionComponent } from '../../../shared/components/header/save-action/save-action.component';
 import { PageLayoutComponent } from '../../../shared/components/page-layout/page-layout.component';
 import { EFieldType } from '../../../shared/enums/field-type.enum';
+import { EMensagem } from '../../../shared/enums/mensagem.enum';
 import { fileToBase64 } from '../../../shared/helpers/image.helper';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import {
@@ -207,6 +208,10 @@ export class ProdutoCadastroComponent
           result.idProduto = this.idEdit;
           this.dataSource.push(result);
           this.table.renderRows();
+        } else {
+          this.openSnackBar({
+            message: EMensagem.SNACKBAR_PRODUTO_DIALOG_PRECO_VENDA
+          })
         }
       }
     });

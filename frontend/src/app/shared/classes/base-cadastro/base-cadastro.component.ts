@@ -1,7 +1,11 @@
 import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
+import { EMensagem } from '../../enums/mensagem.enum';
 import { IFormField } from '../../interfaces/form-field.interface';
+import { ISnackbarData } from '../../interfaces/snackbar-data.interface';
 import { BaseResourceService } from '../base-resource-service/base-resource.service';
 
 @Component({ template: '' })
@@ -20,6 +24,7 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
 
   private readonly _router!: Router;
   private readonly _route!: ActivatedRoute;
+  private readonly _snackBar!: MatSnackBar;
 
   constructor(
     private readonly _service: BaseResourceService<T>,
@@ -27,6 +32,7 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
   ) {
     this._router = this._injector.get(Router);
     this._route = this._injector.get(ActivatedRoute);
+    this._snackBar = this._injector.get(MatSnackBar);
   }
 
   ngOnInit() {
@@ -91,6 +97,9 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     this.cadastroForm.markAllAsTouched();
 
     if (!this.cadastroForm.valid) {
+      this.openSnackBar({
+        message: EMensagem.SNACKBAR_FORM_INVALIDO
+      })
       return;
     }
 
@@ -136,5 +145,16 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     this._service.delete(this.idEdit).subscribe(() => {
       this.navigateToCadastro();
     });
+  }
+
+  protected openSnackBar(data: ISnackbarData, duration = 5000) {
+    this._snackBar.openFromComponent<SnackbarComponent, ISnackbarData>(
+      SnackbarComponent,
+      {
+        duration,
+        data,
+        horizontalPosition: 'center',
+      },
+    );
   }
 }

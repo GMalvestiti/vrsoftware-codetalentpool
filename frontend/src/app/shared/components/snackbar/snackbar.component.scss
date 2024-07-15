@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid #000;
+
+    .snackbar-message {
+        color: var(--color-primary);
+    }
+
+    .snackbar-close {
+        font-size: 0.8rem;
+    }
+
+    .snackbar-text {
+        font-weight: bold;
+        color: var(--color-primary);
+    }
+}
