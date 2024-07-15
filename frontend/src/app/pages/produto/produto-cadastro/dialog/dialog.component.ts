@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, inject, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,9 +17,13 @@ import { PageLayoutComponent } from '../../../../shared/components/page-layout/p
 import { EFieldType } from '../../../../shared/enums/field-type.enum';
 import {
   IFormField,
-  ILabelValue
+  ILabelValue,
 } from '../../../../shared/interfaces/form-field.interface';
-import { ILoja, IProdutoLoja } from '../../../../shared/interfaces/produto.interface';
+import {
+  ILoja,
+  IProdutoLoja,
+} from '../../../../shared/interfaces/produto.interface';
+import { PagesComponent } from '../../../pages.component';
 
 @Component({
   selector: 'app-dialog',
@@ -26,6 +36,7 @@ import { ILoja, IProdutoLoja } from '../../../../shared/interfaces/produto.inter
     FormFieldListComponent,
     PageLayoutComponent,
     CommonModule,
+    PagesComponent,
   ],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
@@ -39,20 +50,20 @@ export class DialogComponent implements OnInit {
 
   constructor(
     protected readonly _injector: Injector,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
-    this._lojaService = this._injector.get(LojaService)
+    this._lojaService = this._injector.get(LojaService);
   }
 
   ngOnInit(): void {
-    this._lojaService.findGlobal().subscribe((response) => {
+    this._lojaService.findGlobal().subscribe(response => {
       this.lojas = response.data;
 
       this.lojaOptions = [];
       for (const loja of this.lojas) {
         this.lojaOptions.push({
           label: loja.descricao,
-          value: loja.id
+          value: loja.id,
         });
       }
       this.updateCadastroFields();

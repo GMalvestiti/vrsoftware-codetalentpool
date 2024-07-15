@@ -1,6 +1,9 @@
 <app-page-layout [title]="'Alteração/Inclusão de Preço'">
   <ng-container actions>
     <app-save-action (eventEmitter)="save()"></app-save-action>
+  </ng-container>
+
+  <ng-container actions-side>
     <app-cancel-action (eventEmitter)="closeDialog()"></app-cancel-action>
   </ng-container>
 
