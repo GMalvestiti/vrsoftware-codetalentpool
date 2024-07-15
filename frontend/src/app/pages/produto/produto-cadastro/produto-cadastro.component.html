@@ -12,5 +12,48 @@
       [form]="cadastroForm"
       [disableWatch]="true">
     </app-form-field-list>
+
+    <table class="table" mat-table matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="loja">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Loja</th>
+        <td mat-cell *matCellDef="let row">{{ row.idLoja }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="precoVenda">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Preço de Venda
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.precoVenda | formatCusto }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="consulta-actions-container">
+          <mat-icon
+            class="consulta-edit-icon"
+            aria-label="Deletar"
+            fontIcon="delete"
+            (click)="deleteProdutoLoja(row.id)"
+            width="18"
+            height="18">
+          </mat-icon>
+          <mat-icon
+            class="consulta-edit-icon"
+            aria-label="Editar"
+            fontIcon="edit"
+            (click)="editar(row.precoVenda)"
+            width="18"
+            height="18">
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <app-empty-row *matNoDataRow></app-empty-row>
+    </table>
   </ng-container>
 </app-page-layout>

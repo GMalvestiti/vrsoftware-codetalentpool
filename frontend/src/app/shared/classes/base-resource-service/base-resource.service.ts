@@ -8,8 +8,8 @@ import { IResponse } from '../../interfaces/response.interface';
 
 @Injectable({ providedIn: 'root' })
 export abstract class BaseResourceService<T> {
-  private readonly _http!: HttpClient;
-  private url!: string;
+  protected readonly _http!: HttpClient;
+  protected url!: string;
 
   constructor(
     protected readonly _injector: Injector,

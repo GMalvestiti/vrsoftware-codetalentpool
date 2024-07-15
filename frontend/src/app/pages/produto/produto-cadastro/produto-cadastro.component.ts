@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injector } from '@angular/core';
+import { AfterViewInit, Component, Injector } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { ProdutoService } from '../../../services/produto.service';
+import { ProdutoLojaService } from '../../../services/produtoloja.service';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
+import { EmptyRowComponent } from '../../../shared/components/empty-row/empty-row.component';
 import { FormFieldListComponent } from '../../../shared/components/form-field-list/form-field-list.component';
 import { DeleteActionComponent } from '../../../shared/components/header/delete-action/delete-action.component';
 import { SaveActionComponent } from '../../../shared/components/header/save-action/save-action.component';
@@ -10,24 +16,56 @@ import { PageLayoutComponent } from '../../../shared/components/page-layout/page
 import { EFieldType } from '../../../shared/enums/field-type.enum';
 import { fileToBase64 } from '../../../shared/helpers/image.helper';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
-import { IProduto } from '../../../shared/interfaces/produto.interface';
+import {
+  IProduto,
+  IProdutoLoja,
+} from '../../../shared/interfaces/produto.interface';
+import { FormatCustoPipe } from '../../../shared/pipes/format-custo.pipe';
 
 const actions = [SaveActionComponent, DeleteActionComponent];
 const form = [FormFieldListComponent];
-const imports = [...actions, ...form, PageLayoutComponent, CommonModule];
+const pipes = [FormatCustoPipe];
+const table = [
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatIconModule,
+  EmptyRowComponent,
+];
+const imports = [
+  ...actions,
+  ...form,
+  ...pipes,
+  ...table,
+  PageLayoutComponent,
+  CommonModule,
+];
 
 @Component({
   selector: 'app-produto-cadastro',
   standalone: true,
   imports,
   templateUrl: './produto-cadastro.component.html',
+  styleUrls: ['./produto-cadastro.component.scss'],
 })
-export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
+export class ProdutoCadastroComponent
+  extends BaseCadastroComponent<IProduto>
+  implements AfterViewInit
+{
+  displayedColumns: string[] = ['loja', 'precoVenda', 'acoes'];
+  dataSource: IProdutoLoja[] = [];
+  produtoLojaCadastro: IProdutoLoja[] = [];
+
   constructor(
     private readonly _produtoService: ProdutoService,
+    private readonly _produtoLojaService: ProdutoLojaService,
     protected override readonly _injector: Injector,
   ) {
     super(_produtoService, _injector);
+  }
+
+  override afterOnInit() {
+    this.search();
   }
 
   cadastroForm = new FormGroup({
@@ -87,5 +125,37 @@ export class ProdutoCadastroComponent extends BaseCadastroComponent<IProduto> {
     }
 
     this.save();
+  }
+
+  search() {
+    if (this.idEdit) {
+      this._produtoLojaService
+        .findAllProdutoLoja(this.idEdit)
+        .subscribe(response => {
+          this.dataSource = response.data;
+        });
+    }
+  }
+
+  editar(id: number): void {
+    console.log(id);
+  }
+
+  deleteProdutoLoja(id: number) {
+    if (!this.idEdit) {
+      this.produtoLojaCadastro = this.produtoLojaCadastro.filter(
+        produtoLoja => produtoLoja.id !== id,
+      );
+
+      this.dataSource = this.produtoLojaCadastro;
+    } else {
+      if (this.produtoLojaCadastro.length <= 1) {
+        return;
+      }
+
+      this._produtoLojaService.delete(id).subscribe(() => {
+        this.search();
+      });
+    }
   }
 }

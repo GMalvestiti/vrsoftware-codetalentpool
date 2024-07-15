@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EMensagem } from '../../shared/enums/mensagem.enum';
 import { IResponse } from '../../shared/interfaces/response.interface';
-import { ProdutoLoja } from '../produto/entities/produto-loja.entity';
+import { ProdutoLoja } from '../produtoloja/entities/produto-loja.entity';
 import { CreateLojaDto } from './dto/create-loja.dto';
 import { UpdateLojaDto } from './dto/update-loja.dto';
 import { Loja } from './entities/loja.entity';

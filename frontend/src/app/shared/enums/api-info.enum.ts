@@ -5,4 +5,5 @@ export enum EAPIPort {
 export enum EAPIPath {
   PRODUTO = 'produto',
   LOJA = 'loja',
+  PRODUTOLOJA = 'produtoloja',
 }

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormField } from '../../interfaces/form-field.interface';
@@ -6,7 +6,7 @@ import { BaseResourceService } from '../base-resource-service/base-resource.serv
 
 @Component({ template: '' })
 export abstract class BaseCadastroComponent<T extends { id: number }>
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   abstract cadastroFields: IFormField[];
   abstract cadastroForm: FormGroup;
@@ -29,8 +29,21 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
     this._route = this._injector.get(ActivatedRoute);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.handleState();
+    this.afterOnInit();
+  }
+
+  afterOnInit(): void {
+    return;
+  }
+
+  ngAfterViewInit(): void {
+    this.afterViewInit();
+  }
+
+  afterViewInit(): void {
+    return;
   }
 
   protected navigateToCadastro(): void {
@@ -49,7 +62,6 @@ export abstract class BaseCadastroComponent<T extends { id: number }>
 
   protected patchFormForEdit(payload: T): void {
     const values = this.buildPatchValuesFormEdit(payload);
-    console.log(values);
     this.cadastroForm.patchValue({ ...values });
   }
 

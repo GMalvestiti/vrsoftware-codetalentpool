@@ -6,9 +6,9 @@
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Loja } from '../../loja/entities/loja.entity';
+import { Produto } from '../../produto/entities/produto.entity';
 import { CreateProdutoLojaDto } from '../dto/create-produto-loja.dto';
 import { UpdateProdutoLojaDto } from '../dto/update-produto-loja.dto';
-import { Produto } from './produto.entity';
 
 @Entity('produtoloja')
 export class ProdutoLoja {

@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ProdutoLoja } from '../../produto/entities/produto-loja.entity';
+import { ProdutoLoja } from '../../produtoloja/entities/produto-loja.entity';
 import { CreateLojaDto } from '../dto/create-loja.dto';
 import { UpdateLojaDto } from '../dto/update-loja.dto';
 

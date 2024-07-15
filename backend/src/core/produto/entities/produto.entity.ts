@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProdutoLoja } from '../../produtoloja/entities/produto-loja.entity';
 import { CreateProdutoDto } from '../dto/create-produto.dto';
 import { UpdateProdutoDto } from '../dto/update-produto.dto';
-import { ProdutoLoja } from './produto-loja.entity';
 
 @Entity('produto')
 export class Produto {

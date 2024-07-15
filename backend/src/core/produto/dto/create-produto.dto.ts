@@ -8,8 +8,8 @@ import {
   MaxLength,
 } from 'class-validator';
 import { EMensagem } from '../../../shared/enums/mensagem.enum';
-import { CreateProdutoLojaDto } from './create-produto-loja.dto';
-import { UpdateProdutoLojaDto } from './update-produto-loja.dto';
+import { CreateProdutoLojaDto } from '../../produtoloja/dto/create-produto-loja.dto';
+import { UpdateProdutoLojaDto } from '../../produtoloja/dto/update-produto-loja.dto';
 
 export class CreateProdutoDto {
   @IsNotEmpty({ message: `descricao ${EMensagem.NAO_PODE_SER_VAZIO}` })
