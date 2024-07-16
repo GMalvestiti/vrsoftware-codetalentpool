@@ -18,7 +18,7 @@ describe('LojaService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        LojaService, 
+        LojaService,
         {
           provide: getRepositoryToken(Loja),
           useValue: {
@@ -40,7 +40,9 @@ describe('LojaService', () => {
 
     service = module.get<LojaService>(LojaService);
     repository = module.get<Repository<Loja>>(getRepositoryToken(Loja));
-    repositoryProdutoLoja = module.get<Repository<ProdutoLoja>>(getRepositoryToken(ProdutoLoja));
+    repositoryProdutoLoja = module.get<Repository<ProdutoLoja>>(
+      getRepositoryToken(ProdutoLoja),
+    );
   });
 
   it('deve estar definido', () => {
@@ -72,15 +74,15 @@ describe('LojaService', () => {
         {
           id: 1,
           descricao: 'Loja 01',
-          produtoloja: []
+          produtoloja: [],
         },
       ];
 
       const expected: IResponse<Loja[]> = {
         count: mockLojas.length,
         data: mockLojas,
-        message: null
-      }
+        message: null,
+      };
 
       const spyRepositoryFindAndCount = jest
         .spyOn(repository, 'findAndCount')
@@ -98,7 +100,7 @@ describe('LojaService', () => {
       const mockLoja: Loja = {
         id: 1,
         descricao: 'Loja 01',
-        produtoloja: []
+        produtoloja: [],
       };
 
       const spyRepositoryFindOne = jest
@@ -175,17 +177,17 @@ describe('LojaService', () => {
       const mockLoja: Loja = {
         id: 1,
         descricao: 'Loja 01',
-        produtoloja: []
+        produtoloja: [],
       };
 
       const spyRepositoryFindOne = jest
         .spyOn(repository, 'findOne')
         .mockReturnValue(Promise.resolve(mockLoja));
-      
+
       const spyRepositoryDelete = jest
         .spyOn(repository, 'delete')
         .mockReturnValue(Promise.resolve(mockLoja) as any);
-      
+
       const spyRepositoryProdutoLojaDelete = jest
         .spyOn(repositoryProdutoLoja, 'delete')
         .mockReturnValue(Promise.resolve({ idLoja: mockLoja.id }) as any);
@@ -193,8 +195,12 @@ describe('LojaService', () => {
       const response = await service.remove(1);
 
       expect(response).toEqual(true);
-      expect(spyRepositoryFindOne).toHaveBeenCalledWith({ where: { id: mockLoja.id } });
-      expect(spyRepositoryProdutoLojaDelete).toHaveBeenCalledWith({ idLoja: mockLoja.id });
+      expect(spyRepositoryFindOne).toHaveBeenCalledWith({
+        where: { id: mockLoja.id },
+      });
+      expect(spyRepositoryProdutoLojaDelete).toHaveBeenCalledWith({
+        idLoja: mockLoja.id,
+      });
       expect(spyRepositoryDelete).toHaveBeenCalledWith(mockLoja.id);
     });
 
@@ -202,7 +208,7 @@ describe('LojaService', () => {
       const mockLoja: Loja = {
         id: 1,
         descricao: 'Loja 01',
-        produtoloja: []
+        produtoloja: [],
       };
 
       const spyRepositoryFindOne = jest
@@ -214,7 +220,9 @@ describe('LojaService', () => {
       } catch (error: any) {
         expect(error).toBeInstanceOf(HttpException);
         expect(error.message).toBe(EMensagem.IMPOSSIVEL_REMOVER);
-        expect(spyRepositoryFindOne).toHaveBeenCalledWith({ where: { id: mockLoja.id } });
+        expect(spyRepositoryFindOne).toHaveBeenCalledWith({
+          where: { id: mockLoja.id },
+        });
       }
     });
   });
