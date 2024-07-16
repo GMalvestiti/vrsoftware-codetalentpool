@@ -166,18 +166,12 @@ export class ProdutoCadastroComponent
         return;
       }
 
-      if (id == null && idLoja) {
+      if (idLoja) {
         this.dataSource = this.dataSource.filter(
           produtoLoja => produtoLoja.idLoja !== idLoja,
         );
         this.table.renderRows();
         return;
-      }
-
-      if (id) {
-        this._produtoLojaService.delete(id).subscribe(() => {
-          this.search();
-        });
       }
     }
   }
@@ -196,7 +190,6 @@ export class ProdutoCadastroComponent
         let found = false;
         this.dataSource.map(produtoLoja => {
           if (produtoLoja.idLoja == result.idLoja) {
-            produtoLoja.precoVenda = result.precoVenda;
             found = true;
           }
         });
