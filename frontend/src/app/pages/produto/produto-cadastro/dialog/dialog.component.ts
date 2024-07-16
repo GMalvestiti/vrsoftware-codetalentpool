@@ -68,7 +68,7 @@ export class DialogComponent implements OnInit {
       this.lojaOptions = [];
       for (const loja of this.lojas) {
         this.lojaOptions.push({
-          label: loja.descricao,
+          label: `[${loja.id}] ${loja.descricao}`,
           value: loja.id,
         });
       }

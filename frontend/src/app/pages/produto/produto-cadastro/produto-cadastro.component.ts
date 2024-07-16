@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
+import { LojaService } from '../../../services/loja.service';
 import { ProdutoService } from '../../../services/produto.service';
 import { ProdutoLojaService } from '../../../services/produtoloja.service';
 import { BaseCadastroComponent } from '../../../shared/classes/base-cadastro/base-cadastro.component';
@@ -20,6 +21,7 @@ import { EMensagem } from '../../../shared/enums/mensagem.enum';
 import { fileToBase64 } from '../../../shared/helpers/image.helper';
 import { IFormField } from '../../../shared/interfaces/form-field.interface';
 import {
+  ILoja,
   IProduto,
   IProdutoLoja,
 } from '../../../shared/interfaces/produto.interface';
@@ -65,10 +67,13 @@ export class ProdutoCadastroComponent
   displayedColumns: string[] = ['loja', 'precoVenda', 'acoes'];
   dataSource: IProdutoLoja[] = [];
 
+  private lojas: ILoja[] = [];
+
   private readonly _dialog!: MatDialog;
 
   constructor(
     private readonly _produtoService: ProdutoService,
+    private readonly _lojaService: LojaService,
     private readonly _produtoLojaService: ProdutoLojaService,
     protected override readonly _injector: Injector,
   ) {
@@ -77,6 +82,12 @@ export class ProdutoCadastroComponent
   }
 
   override afterOnInit() {
+    this._lojaService.findGlobal().subscribe(response => {
+      this.lojas = [];
+      for (const loja of response.data) {
+        this.lojas.push(loja);
+      }
+    });
     this.search();
   }
 
@@ -139,6 +150,10 @@ export class ProdutoCadastroComponent
     this.cadastroForm.get('produtoloja')?.setValue(this.dataSource);
 
     this.save();
+  }
+
+  getLojaById(id: number): string {
+    return this.lojas.find(loja => loja.id === id)?.descricao || '';
   }
 
   search() {
