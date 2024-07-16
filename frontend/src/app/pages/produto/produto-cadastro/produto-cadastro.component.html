@@ -37,7 +37,11 @@
             class="consulta-edit-icon"
             aria-label="Deletar"
             fontIcon="delete"
-            (click)="deleteProdutoLoja(row.id)"
+            (click)="
+              idEdit
+                ? deleteProdutoLoja(row.id, row.idLoja)
+                : deleteProdutoLoja(row.idLoja)
+            "
             width="18"
             height="18">
           </mat-icon>

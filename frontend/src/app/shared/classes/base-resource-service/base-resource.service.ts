@@ -63,7 +63,6 @@ export abstract class BaseResourceService<T> {
   }
 
   delete(id: number): Observable<IResponse<T>> {
-    console.log(id);
     return this._http.delete<IResponse<T>>(`${this.url}/${id}`).pipe(take(1));
   }
 }

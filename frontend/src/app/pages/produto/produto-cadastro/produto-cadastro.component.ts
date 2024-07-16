@@ -147,6 +147,7 @@ export class ProdutoCadastroComponent
         .findAllProdutoLoja(this.idEdit)
         .subscribe(response => {
           this.dataSource = response.data;
+          this.table.renderRows();
         });
     }
   }
@@ -155,26 +156,25 @@ export class ProdutoCadastroComponent
     console.log(id);
   }
 
-  deleteProdutoLoja(id: number) {
+  deleteProdutoLoja(id: number, idLoja?: number) {
     if (!this.idEdit) {
       this.dataSource = this.dataSource.filter(
-        produtoLoja => produtoLoja.id !== id,
+        produtoLoja => produtoLoja.idLoja !== id,
       );
     } else {
       if (this.dataSource.length <= 1) {
         return;
       }
 
-      const idNull = this.dataSource.find(
-        produtoLoja => produtoLoja.id == null,
-      );
-
-      if (idNull) {
+      if (id == null && idLoja) {
         this.dataSource = this.dataSource.filter(
-          produtoLoja => produtoLoja.id !== id,
+          produtoLoja => produtoLoja.idLoja !== idLoja,
         );
         this.table.renderRows();
-      } else {
+        return;
+      }
+
+      if (id) {
         this._produtoLojaService.delete(id).subscribe(() => {
           this.search();
         });
